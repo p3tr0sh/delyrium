@@ -1,0 +1,3 @@
+[submodule "lyr-sheets"]
+	path = lyr-sheets
+	url = https://github.com/p3tr0sh/lyr-sheets.git

@@ -32,9 +32,9 @@ export default class Chord {
 
   transpose(amount) {
     if (amount < 0) {
-      this.#base = Chord.FLAT[(this.#index + amount) % 12]
+      this.#base = Chord.FLAT[((this.#index + amount) % 12 + 12) % 12]
     } else if (amount > 0) {
-      this.#base = Chord.SHARP[(this.#index + amount) % 12]
+      this.#base = Chord.SHARP[((this.#index + amount) % 12 + 12) % 12]
     }
     // split bass into separate chord on "/" and reapply on addition
     // if (this.#addition.includes("/")) {

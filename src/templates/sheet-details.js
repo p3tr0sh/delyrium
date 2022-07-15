@@ -1,16 +1,38 @@
 import { graphql } from "gatsby"
-import React from "react"
+import React, { useState } from "react"
+import * as styles from '../styles/sheet.module.css'
+import Chord from "./chord"
+import SheetBody from "./sheet-body"
 
-export default function SheetDetails({ data }) {
-  const { html } = data.markdownRemark
-  const { title, band, key, tags } = data.markdownRemark.frontmatter
+export default function SheetPage({ data }) {
+  const { rawMarkdownBody } = data.markdownRemark
+  const { title, band } = data.markdownRemark.frontmatter
+  const originalKey = data.markdownRemark.frontmatter.key
+  const [key, setKey] = useState(originalKey)
+  const [offset, setOffset] = useState(0)
+
+  function transpose(amount) {
+    const k = new Chord(key)
+    k.transpose(amount)
+    setKey(k.toString())
+    setOffset(offset + amount)
+  }
+
   return (
-    <div>
-      <h2>{title}</h2>
-      <h3>{band}</h3>
-      <p>{key}</p>
-      <strong>{tags}</strong>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+    <div className={styles.layout}>
+      <div className={styles.head}>
+        <div>
+          <h2>{title}</h2>
+          <h3>{band}</h3>
+        </div>
+        <div className={styles.transpose}>
+          <button onClick={() => {transpose(-1)}}>Transpose -1</button>
+          <span className={styles.chords} id="key">{key}</span>
+          <button onClick={() => {transpose(+1)}}>Transpose +1</button>
+        </div>
+      </div>
+      {/* <strong>{tags}</strong> */}
+      <SheetBody body={rawMarkdownBody} offset={offset}/>
     </div>
   )
 }
@@ -18,13 +40,12 @@ export default function SheetDetails({ data }) {
 export const query = graphql`
 query SheetDetails($slug: String) {
   markdownRemark(frontmatter: {slug: {eq: $slug}}) {
-    html
     frontmatter {
       band
       key
-      tags
       title
     }
+    rawMarkdownBody
   }
 }
 

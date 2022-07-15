@@ -6,7 +6,7 @@ import SheetBody from "./sheet-body"
 
 export default function SheetPage({ data }) {
   const { rawMarkdownBody } = data.markdownRemark
-  const { title, band } = data.markdownRemark.frontmatter
+  const { title, band, tags } = data.markdownRemark.frontmatter
   const originalKey = data.markdownRemark.frontmatter.key
   const [key, setKey] = useState(originalKey)
   const [offset, setOffset] = useState(0)
@@ -15,7 +15,8 @@ export default function SheetPage({ data }) {
     const k = new Chord(key)
     k.transpose(amount)
     setKey(k.toString())
-    setOffset(offset + amount)
+    const tmpoff = ((offset + amount) % 12 + 12) % 12
+    setOffset(amount < 0 ? tmpoff - 12 : tmpoff)
   }
 
   return (
@@ -29,9 +30,9 @@ export default function SheetPage({ data }) {
           <button onClick={() => {transpose(-1)}}>Transpose -1</button>
           <span className={styles.chords} id="key">{key}</span>
           <button onClick={() => {transpose(+1)}}>Transpose +1</button>
+          <span className={styles.tags}>{tags}</span>
         </div>
       </div>
-      {/* <strong>{tags}</strong> */}
       <SheetBody body={rawMarkdownBody} offset={offset}/>
     </div>
   )
@@ -43,6 +44,7 @@ query SheetDetails($slug: String) {
     frontmatter {
       band
       key
+      tags
       title
     }
     rawMarkdownBody

@@ -30,8 +30,6 @@ for root, dirs, files in walk(args.folder):
                     # header end
                     break
                 spl = line.split(' ', 1)
-                if len(spl) < 2:
-                    continue
                 if spl[0] == '#':
                     title = spl[1]
                 elif spl[0] == '##':

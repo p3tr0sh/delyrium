@@ -69,4 +69,4 @@ yarn-error.log
 .yarn-integrity
 
 # generated sheets
-src/sheets/**/*.md
+src/sheets/

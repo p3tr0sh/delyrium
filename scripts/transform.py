@@ -7,7 +7,7 @@ SUFFIX = ".md"
 OUTPUT_FOLDER = "src/sheets/"
 
 parser = ArgumentParser()
-parser.add_argument('-f', '--folder', type=str, default='.')
+parser.add_argument('folder', type=str)
 args = parser.parse_args()
 
 # crawl over /lyr-sheets
@@ -17,19 +17,26 @@ for root, dirs, files in walk(args.folder):
     for file in files:
         filepath = path.join(root, file)
         print(filepath)
-        if not filepath.endswith(SUFFIX) or filepath.endswith("README.md"):
+        if not filepath.endswith(SUFFIX) or filepath.endswith("README.md") or OUTPUT_FOLDER in filepath:
             continue
-        title, band, key, tags = ['', '', '', '']
+        title, band, key, tags, columns = ['', '', '', '', 2]
         with open(filepath, 'r') as f:
             while f.readable():
                 line = f.readline().replace('\n', '')
+                spl = line.split(' ', 1)
                 if line.startswith('#!'):
-                    # ignore shebang
+                    # ignore shebang, maybe grab the "column" argument?
+                    p = ArgumentParser()
+                    p.add_argument("-c", "--pdf-columns", type=int, default=2)
+                    a = line.replace("#!/usr/bin/env lyr", "").replace("#!/bin/lyr", "").split(" ")
+                    print(a)
+                    a.remove('')
+                    lyrArgs = p.parse_args(a)
+                    columns = lyrArgs.pdf_columns
                     continue
                 if line.startswith('---'):
                     # header end
                     break
-                spl = line.split(' ', 1)
                 if spl[0] == '#':
                     title = spl[1]
                 elif spl[0] == '##':
@@ -42,7 +49,7 @@ for root, dirs, files in walk(args.folder):
 
             # reformat header
             slug = path.join(root.replace(args.folder, ''), file[0:-len(SUFFIX)])
-            outstring = f"---\ntitle: {title}\nband: {band}\nkey: {key}\ntags: {tags}\nslug: {slug}\n---\n{body}"
+            outstring = f"---\ntitle: {title}\nband: {band}\nkey: {key}\ntags: {tags}\ncolumns: {columns}\nslug: {slug}\n---\n{body}"
 
             # produce new file in /src/sheets
             outfolder = path.join(OUTPUT_FOLDER, root.replace(args.folder, ''))

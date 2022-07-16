@@ -1,7 +1,7 @@
 {
   "name": "delyrium",
-  "private": true,
-  "description": "Web version of the commandline tool lyrium for displaying lead sheets",
+  "private": false,
+  "description": "Web version of the commandline tool lyrium for displaying music sheets",
   "version": "0.1.0",
   "license": "0BSD",
   "scripts": {
@@ -11,7 +11,6 @@
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "transform": "python3 scripts/transform.py"
   },
   "dependencies": {

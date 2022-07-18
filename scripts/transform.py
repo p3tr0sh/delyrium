@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 SUFFIX = ".md"
 OUTPUT_FOLDER = "src/sheets/"
 
-FOLDER_IGNORES = [OUTPUT_FOLDER, "node_modules"]
+FOLDER_IGNORES = [OUTPUT_FOLDER, "node_modules", "delyrium", ".git"]
 
 parser = ArgumentParser()
 parser.add_argument('folder', type=str)

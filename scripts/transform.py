@@ -6,6 +6,8 @@ from argparse import ArgumentParser
 SUFFIX = ".md"
 OUTPUT_FOLDER = "src/sheets/"
 
+FOLDER_IGNORES = [OUTPUT_FOLDER, "node_modules"]
+
 parser = ArgumentParser()
 parser.add_argument('folder', type=str)
 args = parser.parse_args()
@@ -13,11 +15,15 @@ args = parser.parse_args()
 # crawl over /lyr-sheets
 
 for root, dirs, files in walk(args.folder):
+    x = sum([1 for ignore in FOLDER_IGNORES if ignore in root])
+    if x > 0:
+        continue
+
     files.sort()
     for file in files:
         filepath = path.join(root, file)
         print(filepath)
-        if not filepath.endswith(SUFFIX) or filepath.endswith("README.md") or OUTPUT_FOLDER in filepath:
+        if not filepath.endswith(SUFFIX) or filepath.endswith("README.md"):
             continue
         title, band, key, tags, columns = ['', '', '', '', 2]
         with open(filepath, 'r') as f:
@@ -29,7 +35,6 @@ for root, dirs, files in walk(args.folder):
                     p = ArgumentParser()
                     p.add_argument("-c", "--pdf-columns", type=int, default=2)
                     a = line.replace("#!/usr/bin/env lyr", "").replace("#!/bin/lyr", "").split(" ")
-                    print(a)
                     a.remove('')
                     lyrArgs = p.parse_args(a)
                     columns = lyrArgs.pdf_columns
@@ -56,7 +61,3 @@ for root, dirs, files in walk(args.folder):
             makedirs(outfolder, exist_ok=True)
             with open(path.join(outfolder, file), 'w') as wf:
                 wf.write(outstring)
-    # for dir in dirs:
-    #     print(path.join(root, dir))
-
-

@@ -1,13 +1,12 @@
-import { graphql } from "gatsby"
 import React, { useState } from "react"
 import * as styles from '../styles/sheet.module.css'
 import Chord from "./chord"
 import SheetBody from "./sheet-body"
 
 export default function SheetPage({ data }) {
-  const { rawMarkdownBody } = data.markdownRemark
-  const { title, band, tags } = data.markdownRemark.frontmatter
-  const originalKey = data.markdownRemark.frontmatter.key
+  const { rawMarkdownBody } = data
+  const { title, band, tags } = data.frontmatter
+  const originalKey = data.frontmatter.key
   const [key, setKey] = useState(originalKey)
   const [offset, setOffset] = useState(0)
 
@@ -37,18 +36,3 @@ export default function SheetPage({ data }) {
     </div>
   )
 }
-
-export const query = graphql`
-query SheetDetails($slug: String) {
-  markdownRemark(frontmatter: {slug: {eq: $slug}}) {
-    frontmatter {
-      band
-      key
-      tags
-      title
-    }
-    rawMarkdownBody
-  }
-}
-
-`

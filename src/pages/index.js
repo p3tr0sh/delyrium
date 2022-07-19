@@ -1,6 +1,6 @@
-import { graphql } from "gatsby"
+import { graphql, Link, navigate } from "gatsby"
 import React from "react"
-import { BrowserRouter as Router, Link, Navigate, Route, Routes } from "react-router-dom"
+import { Router } from "@reach/router"
 import SheetPage from "../templates/sheet-details"
 
 const Home = ({sheetlist}) => {
@@ -22,17 +22,18 @@ const Home = ({sheetlist}) => {
 export default function Sheetlist({ data }) {
   const sheetlist = data.allMarkdownRemark.nodes
   sheetlist.sort((a,b) => a.frontmatter.title.localeCompare(b.frontmatter.title))
+  const NotFound = () => (<div onLoad={navigate("/", {replace: true})}>Page not found</div>)
   return (
-    <Router>
+    <>
       <Link to="/">Home</Link>
-      <Routes>
-        <Route path="/" element={<Home sheetlist={sheetlist}/>} />
+      <Router>
+        <Home sheetlist={sheetlist} path="/" />
         {sheetlist.map(sheet => (
-          <Route element={<SheetPage data={sheet}/>} path={`/sheets/${sheet.frontmatter.slug}`} />
+          <SheetPage data={sheet} path={`/sheets/${sheet.frontmatter.slug}`} />
         ))}
-        <Route path="*" element={<Navigate replace to="/" />} />
-      </Routes>
-    </Router>
+        <NotFound default />
+      </Router>
+    </>
   )
 }
 

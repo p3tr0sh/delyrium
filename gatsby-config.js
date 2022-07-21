@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.com/docs/gatsby-config/
  */
 
-module.exports = {
+ module.exports = {
   /* Your site config here */
   plugins: [
     `gatsby-transformer-remark`,
@@ -13,6 +13,14 @@ module.exports = {
       options: {
         name: `sheets`,
         path: `${__dirname}/src/sheets/`,
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /assets/
+        }
       }
     }
   ],

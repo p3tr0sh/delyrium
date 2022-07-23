@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import * as styles from '../styles/sheet.module.css'
-import Chord from "./chord"
+import Chord from "../util/chord"
 import SheetBody from "./sheet-body"
 import { Link } from "gatsby"
 import Home from '../../assets/home.svg'
+import Head from "./head"
 
 export default function SheetPage({ data }) {
   const { rawMarkdownBody } = data
@@ -22,6 +23,7 @@ export default function SheetPage({ data }) {
 
   return (
     <>
+      <Head breadcrumbs={[title, band]} />
       <Link to="/" className={styles.homebutton}><Home className={styles.icon} /></Link>
       <div className={styles.layout}>
         <div className={styles.head}>

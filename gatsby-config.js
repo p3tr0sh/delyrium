@@ -4,10 +4,11 @@
  * See: https://www.gatsbyjs.com/docs/gatsby-config/
  */
 
- module.exports = {
+module.exports = {
   /* Your site config here */
   plugins: [
     `gatsby-transformer-remark`,
+    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

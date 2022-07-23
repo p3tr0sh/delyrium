@@ -1,7 +1,7 @@
 
 import React from "react"
 import * as styles from '../styles/sheet.module.css'
-import Chord from "./chord"
+import Chord from "../util/chord"
 
 export default function SheetBody({body, offset}) {
   return (

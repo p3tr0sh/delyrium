@@ -1,0 +1,16 @@
+icons:
+  - icon:
+    name: Album
+    path: "album.svg"
+    tags: ["album: ", "album:"]
+    arguments: true
+  - icon:
+    name: Ukulele
+    path: "ukulele.svg"
+    tags: ["ukulele"]
+    arguments: false
+  - icon:
+    name: Wohldenberg
+    path: "wohldenberg.svg"
+    tags: ["wohldenberg"]
+    arguments: false

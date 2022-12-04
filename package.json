@@ -11,7 +11,8 @@
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "transform": "python3 scripts/transform.py"
+    "transform": "python3 scripts/transform.py",
+    "deploy:github": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "dependencies": {
     "gatsby": "^4.18.1",
@@ -24,6 +25,7 @@
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "gh-pages": "^4.0.0",
     "prettier": "^2.7.1"
   },
   "repository": {

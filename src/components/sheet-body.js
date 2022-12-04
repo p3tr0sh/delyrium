@@ -9,6 +9,12 @@ export default function SheetBody({body, offset}) {
       {body.split("\n").map(line => {
         if (line === "") {
           return <br/>
+        } else if(line[0] === "#") {
+          // ignore comments and shebang
+          return ""
+        } else if(line[0] === "{") {
+          // TODO: directives
+          return ""
         } else {
           if (line.includes("[")) {
             let chordstring = ""

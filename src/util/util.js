@@ -36,7 +36,7 @@ function stringSimilarity(str1, str2, gramSize = 2) {
 
 export function match(data, searchString) {
   let max = 0;
-  for(const target of [data.title, data.band, data.tags]) {
+  for(const target of data) {
     max = Math.max(stringSimilarity(searchString, target), max)
   }
   return max

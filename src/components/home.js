@@ -10,9 +10,9 @@ import AssetConfig from '../../assets/assets.yml'
 export default function Home({sheetlist}) {
   const [searchString, setSearchString] = useState("");
   if (searchString !== "") {
-    sheetlist.sort((a,b) => {return match(b.frontmatter, searchString) - match(a.frontmatter, searchString)});
+    sheetlist.sort((a,b) => {return match(b.fields.meta, searchString) - match(a.fields.meta, searchString)});
   } else {
-    sheetlist.sort((a,b) => a.frontmatter.title.localeCompare(b.frontmatter.title));
+    sheetlist.sort((a,b) => a.fields.meta.title.localeCompare(b.fields.meta.title));
   }
 
   // ---------------------- Icon buffer to avoid loading each icon multiple times
@@ -83,13 +83,13 @@ export default function Home({sheetlist}) {
       <h1 style={{textAlign: "center", margin: "0px"}}>Delyrium</h1>
       <div className={styles.cardbox}>
         {sheetlist.map(sheet => {
-          if (searchString === "" || match(sheet.frontmatter, searchString) >= 0.4 + searchString.length * 0.02) {
+          if (searchString === "" || match(sheet.fields.meta, searchString) >= 0.4 + searchString.length * 0.02) {
             return (
-              <Link to={`/sheets/${sheet.frontmatter.slug}`} key={sheet.id} className={styles.card} onClick={() => setSearchString("")}>
-                  <h3 className={styles.title}>{sheet.frontmatter.title}</h3>
+              <Link to={`/sheets/${sheet.fields.slug}`} key={sheet.id} className={styles.card} onClick={() => setSearchString("")}>
+                  <h3 className={styles.title}>{sheet.fields.meta.title}</h3>
                   <div className={styles.band}>
-                    {sheet.frontmatter.band}
-                    {iconifyTags(sheet.frontmatter.tags ?? "")}
+                    {sheet.fields.meta.artist}
+                    {/* {iconifyTags(sheet.frontmatter.tags ?? "")} */}
                   </div>
               </Link>
             )

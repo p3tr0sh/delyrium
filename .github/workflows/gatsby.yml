@@ -74,6 +74,11 @@ jobs:
             ${{ runner.os }}-gatsby-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Download lyrics
+        run: |
+          curl https://cloud.petrosh.de/s/JiycKL8MooDqznA/download --output lyrs.zip
+          unzip lyrs.zip
+          mv petrosh/ src/sheets
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
